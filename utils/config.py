@@ -1,19 +1,25 @@
-"""SUMO Configuration - Hybrid Model"""
+"""Centralised configuration for Sentinel360."""
 import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 SUMO_HOME = os.environ.get('SUMO_HOME', '/opt/homebrew/opt/sumo/share/sumo')
-NETWORK_FILE = 'accra.net.xml'
-ROUTE_FILE = 'vehicles.rou.xml'
-CONFIG_FILE = 'simulation.sumocfg'
-MODEL_DIR = 'models'
 
-# Model files
-GHANA_GB_FILE = os.path.join(MODEL_DIR, 'ghana_gb_model.pkl')
-PORTO_IF_FILE = os.path.join(MODEL_DIR, 'porto_if_model.pkl')
-GHANA_SCALER_FILE = os.path.join(MODEL_DIR, 'ghana_scaler.pkl')
-PORTO_SCALER_FILE = os.path.join(MODEL_DIR, 'porto_scaler.pkl')
-FEATURES_FILE = os.path.join(MODEL_DIR, 'feature_names.pkl')
-FUSION_CONFIG_FILE = os.path.join(MODEL_DIR, 'fusion_config.pkl')
+# Simulation files (inside simulation/)
+SIM_DIR = BASE_DIR / 'simulation'
+NETWORK_FILE = str(SIM_DIR / 'accra.net.xml')
+ROUTE_FILE = str(SIM_DIR / 'vehicles.rou.xml')
+CONFIG_FILE = str(SIM_DIR / 'simulation.sumocfg')
+
+# Model files (inside models/)
+MODEL_DIR = str(BASE_DIR / 'models')
+GHANA_GB_FILE = str(BASE_DIR / 'models' / 'ghana_gb_model.pkl')
+PORTO_IF_FILE = str(BASE_DIR / 'models' / 'porto_if_model.pkl')
+GHANA_SCALER_FILE = str(BASE_DIR / 'models' / 'ghana_scaler.pkl')
+PORTO_SCALER_FILE = str(BASE_DIR / 'models' / 'porto_scaler.pkl')
+FEATURES_FILE = str(BASE_DIR / 'models' / 'feature_names.pkl')
+FUSION_CONFIG_FILE = str(BASE_DIR / 'models' / 'fusion_config.pkl')
 
 STEP_LENGTH = 1.0
 MAX_STEPS = 1000

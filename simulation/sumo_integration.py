@@ -1,8 +1,9 @@
 """
 SUMO Real-Time Traffic Simulation with Hybrid Driver Behavior Monitoring
 
-Run: python run_simulation.py          (headless)
-     python run_simulation.py --gui    (with SUMO GUI)
+Run from project root:
+    python -m simulation.sumo_integration          (headless)
+    python -m simulation.sumo_integration --gui    (with SUMO GUI)
 """
 import sys
 import os
@@ -12,7 +13,12 @@ from pathlib import Path
 
 sys.stdout.reconfigure(line_buffering=True)
 
-from config import *
+# Ensure project root is on sys.path so core/utils imports work
+_PROJECT_ROOT = str(Path(__file__).resolve().parent.parent)
+if _PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, _PROJECT_ROOT)
+
+from utils.config import *
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -22,7 +28,7 @@ else:
 
 try:
     import traci
-    from monitor import HybridMonitor
+    from core.risk_fusion import HybridMonitor
 except ImportError as e:
     sys.exit(f"Failed to import: {e}")
 

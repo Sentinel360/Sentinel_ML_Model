@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = str(Path(__file__).resolve().parent.parent)
+if _PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, _PROJECT_ROOT)
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -5,6 +12,12 @@ import joblib
 import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime
+
+from utils.config import (
+    GHANA_GB_FILE, PORTO_IF_FILE,
+    GHANA_SCALER_FILE, PORTO_SCALER_FILE,
+    FEATURES_FILE, FUSION_CONFIG_FILE,
+)
 
 st.set_page_config(
     page_title="Sentinel360 Model Tester",
@@ -19,12 +32,12 @@ st.markdown("**Test edge cases and analyze model predictions vs expected outcome
 @st.cache_resource
 def load_models():
     try:
-        ghana_gb = joblib.load('models/ghana_gb_model.pkl')
-        porto_if = joblib.load('models/porto_if_model.pkl')
-        scaler_gh = joblib.load('models/ghana_scaler.pkl')
-        scaler_po = joblib.load('models/porto_scaler.pkl')
-        features = joblib.load('models/feature_names.pkl')
-        config = joblib.load('models/fusion_config.pkl')
+        ghana_gb = joblib.load(GHANA_GB_FILE)
+        porto_if = joblib.load(PORTO_IF_FILE)
+        scaler_gh = joblib.load(GHANA_SCALER_FILE)
+        scaler_po = joblib.load(PORTO_SCALER_FILE)
+        features = joblib.load(FEATURES_FILE)
+        config = joblib.load(FUSION_CONFIG_FILE)
         return {
             'ghana_gb': ghana_gb,
             'porto_if': porto_if,
